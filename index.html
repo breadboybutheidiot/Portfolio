@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minion Power - Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;700&display=swap');
+
+    :root {
+      --primary-color: #FF4500;
+      --secondary-color: #FFD700;
+      --dark-color: #2C3E50;
+      --light-color: #ECF0F1;
+      --accent-color: #9B59B6;
+      --minion-blue: #0066CC;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(-45deg, #0f1b3a, #1e3c72, #2a5298, #0f1b3a);
+      background-size: 400% 400%;
+      background-position: center;
+      animation: gradientShift 15s ease infinite;
+      color: var(--light-color);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.05s ease;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    /* Animated background shapes */
+    .background-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,0,0.2), rgba(255,215,0,0) 70%);
+      filter: blur(10px);
+      opacity: 0.4;
+      animation: float 20s infinite ease-in-out;
+      mix-blend-mode: screen;
+    }
+
+    .shape:nth-child(1) { width: 100px; height: 100px; top: 15%; left: 10%; background-color: var(--secondary-color); animation-duration: 25s; }
+    .shape:nth-child(2) { width: 180px; height: 180px; top: 70%; left: 15%; background-color: var(--primary-color); animation-duration: 35s; animation-delay: 2s; }
+    .shape:nth-child(3) { width: 90px; height: 90px; top: 40%; right: 10%; background-color: var(--accent-color); animation-duration: 22s; animation-delay: 1s; }
+    .shape:nth-child(4) { width: 140px; height: 140px; bottom: 15%; right: 20%; background-color: var(--minion-blue); animation-duration: 30s; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-80px) rotate(180deg); }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header with enhanced animations */
+    header {
+      text-align: center;
+      padding: 80px 0;
+      border-bottom: 4px solid var(--secondary-color);
+      background: rgba(44, 62, 80, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: var(--shadow), 0 0 30px rgba(255, 69, 0, 0.2);
+      margin-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+      transform: translateY(-20px);
+      opacity: 0;
+      animation: headerSlideIn 1.2s ease-out forwards;
+    }
+
+    @keyframes headerSlideIn {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4.5rem;
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+      text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.3);
+      animation: glowPulse 2s infinite alternate, bounceIn 1s ease-out forwards;
+      position: relative;
+      display: inline-block;
+    }
+
+    @keyframes glowPulse {
+      0% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FF4500; }
+      100% { text-shadow: 0 0 15px #FFD700, 0 0 25px #FFA500, 0 0 40px #FF4500, 0 0 50px #FF4500; }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      60% { transform: scale(1.05); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .description {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      color: var(--light-color);
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease-out 0.6s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Section Title */
+    .section-title {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      margin: 80px 0 40px;
+      color: var(--secondary-color);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 30px;
+      background: rgba(44, 62, 80, 0.8);
+      backdrop-filter: blur(5px);
+      border-radius: 15px;
+      border: 3px solid var(--primary-color);
+      box-shadow: 0 0 20px rgba(255, 69, 0, 0.4),
+                  inset 0 0 15px rgba(0, 0, 0, 0.5);
+      animation: titleFloat 3s infinite ease-in-out, pulseBorder 2s infinite alternate;
+    }
+
+    @keyframes titleFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    @keyframes pulseBorder {
+      to {
+        box-shadow: 0 0 30px rgba(255, 69, 0, 0.7),
+                    inset 0 0 20px rgba(255, 215, 0, 0.3);
+      }
+    }
+
+    /* Skills Section */
+    .skills-container {
+      margin: 40px auto;
+      max-width: 900px;
+      background: rgba(44, 62, 80, 0.7);
+      padding: 30px;
+      border-radius: 16px;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 1s ease-out 0.8s forwards;
+      opacity: 0;
+    }
+
+    .skills-list {
+      list-style: none;
+      padding-left: 0;
+      font-size: 1.3rem;
+      line-height: 2.2;
+      color: var(--light-color);
+    }
+
+    .skills-list li {
+      position: relative;
+      padding-left: 30px;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .skills-list li::before {
+      content: "⚡";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--secondary-color);
+      font-size: 1.4rem;
+    }
+
+    @keyframes skillFadeIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .skills-list li:nth-child(1) { animation: skillFadeIn 0.6s 0.9s forwards; }
+    .skills-list li:nth-child(2) { animation: skillFadeIn 0.6s 1.1s forwards; }
+    .skills-list li:nth-child(3) { animation: skillFadeIn 0.6s 1.3s forwards; }
+    .skills-list li:nth-child(4) { animation: skillFadeIn 0.6s 1.5s forwards; }
+
+    /* Video Container */
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 35px;
+      margin-top: 30px;
+      justify-content: center;
+      perspective: 1200px;
+    }
+
+    .video-box {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      height: 320px;
+      background: rgba(30, 40, 60, 0.7);
+      border: 2px solid var(--primary-color);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform-style: preserve-3d;
+      opacity: 0;
+      transform: translateY(40px) rotateX(15deg);
+      backface-visibility: hidden;
+    }
+
+    .video-box:hover {
+      transform: translateY(-15px) scale(1.05) rotateX(6deg) rotateY(6deg) translateZ(20px);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(255, 69, 0, 0.4),
+        0 0 50px rgba(255, 215, 0, 0.3);
+      z-index: 2;
+      border-color: var(--secondary-color);
+    }
+
+    .video-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent, 
+        rgba(255, 215, 0, 0.1), 
+        transparent, 
+        rgba(255, 69, 0, 0.1),
+        transparent);
+      transform: rotate(45deg);
+      pointer-events: none;
+      animation: shine 6s infinite linear;
+      z-index: 1;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      50% { transform: translateX(100%) rotate(45deg); }
+      100% { transform: translateX(300%) rotate(45deg); }
+    }
+
+    .video-frame {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+    }
+
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 14px;
+      transition: transform 0.3s;
+    }
+
+    .video-frame iframe:hover {
+      transform: scale(1.02);
+    }
+
+    /* Cursor Particle Trail */
+    .cursor-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .trail-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--secondary-color);
+      pointer-events: none;
+      opacity: 0.7;
+      transform: scale(0);
+      animation: growShrink 1s forwards;
+    }
+
+    @keyframes growShrink {
+      0% { transform: scale(0); opacity: 0.8; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 100px;
+      padding: 30px;
+      color: var(--light-color);
+      font-size: 1.1rem;
+      border-top: 2px solid var(--primary-color);
+      opacity: 0;
+      animation: fadeInUp 1s 1.5s forwards;
+    }
+
+    footer .social-links {
+      margin-top: 15px;
+    }
+
+    footer .social-links a {
+      color: var(--secondary-color);
+      font-size: 2rem;
+      margin: 0 15px;
+      transition: all 0.3s;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    footer .social-links a:hover {
+      color: #fff;
+      transform: scale(1.2) rotate(10deg);
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+
+    /* Стили для счетчика посещений */
+.visit-counter {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(0, 102, 204, 0.2);
+  border-radius: 12px;
+  border: 1px solid var(--minion-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--light-color);
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.2);
+  animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 4px 10px rgba(0, 102, 204, 0.2);
+  }
+  to {
+    box-shadow: 0 4px 20px rgba(0, 102, 204, 0.4), 0 0 15px rgba(0, 102, 204, 0.3);
+  }
+}
+
+.counter-label {
+  color: var(--secondary-color);
+}
+
+.counter-number {
+  font-size: 1.4rem;
+  color: #FFD700;
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+    /* Projects Section */
+.projects-container {
+  margin: 60px auto;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.project-card {
+  background: rgba(30, 40, 60, 0.8);
+  border: 2px solid var(--primary-color);
+  border-radius: 18px;
+  padding: 30px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0;
+  transform: translateY(40px) rotateX(10deg);
+  animation: fadeInUp 1s 1.2s forwards;
+}
+
+.project-card:hover {
+  transform: translateY(-10px) scale(1.03) rotateX(0);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 69, 0, 0.4),
+    0 0 40px rgba(255, 215, 0, 0.3);
+  border-color: var(--secondary-color);
+}
+
+.project-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.project-card p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--light-color);
+  margin-bottom: 25px;
+}
+
+.project-link {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.project-link:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+}
+
+.project-link i {
+  margin-right: 8px;
+}
+
+
+
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      h1 { font-size: 3.2rem; }
+      .section-title { font-size: 2.2rem; }
+      .skills-container { padding: 20px; }
+      .video-box { height: 260px; min-width: 100%; }
+      .container { padding: 10px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2.6rem; }
+      .description { font-size: 1.2rem; }
+      .video-box { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress"></div>
+
+  <!-- Animated Background Shapes -->
+  <div class="background-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <!-- Cursor Trail -->
+  <div class="cursor-trail"></div>
+
+  <div class="container">
+    <header>
+      <h1>Minion Power</h1>
+      <p class="description">Скриптер с более чем 4 годами опыта разработки на Luau. Специализируюсь на создании игровых систем, оптимизации кода и построении удобных инструментов для разработчиков. Умею разбираться в чужом коде и адаптироваться под проектные требования.</p>
+    </header>
+    <!--
+
+    <div class="section-title">ПРОЕКТЫ</div>
+
+    <div class="projects-container">
+      <div class="project-card">
+        <h3>⚡ [ Новая ] Побег от А4!</h3>
+        <p>Многопользовательская PvP-арена с уникальными способностями, системой прокачки и внутриигровой экономикой. Я отвечал за боевую систему, баланс и сохранение прогресса игроков.</p> 
+        <a href="https://www.roblox.com/games/86695131314817/4#!/about" target="_blank" class="project-link">
+          <i class="fas fa-gamepad"></i> Посмотреть
+        </a>
+        <div class="visit-counter">
+          <i class="fas fa-fire"></i>
+          <span class="counter-label">Визитов:</span>
+          <span id="visit-count" class="counter-number">0</span>
+        </div>
+      </div>
+    </div>
+
+  -->
+
+
+    <!-- Навыки Section -->
+    <div class="section-title">НАВЫКИ</div>
+    <div class="skills-container">
+      <ul class="skills-list">
+        <li>Разработка боевых систем (оружие, файтинг, PvP механики)</li>
+        <li>Создание инвентарей, UI, квестовых систем, сохранений данных</li>
+        <li>Оптимизация кода и повышение производительности</li>
+        <li>Использование OOP-подхода и модульной структуры кода</li>
+      </ul>
+    </div>
+
+    <!-- Работы Section -->
+    <div class="section-title">РАБОТЫ</div>
+
+    <div class="video-container">
+      <!-- Первое видео -->
+      <div class="video-box">
+        <div class="video-frame">
+          <iframe 
+            src="https://www.youtube.com/embed/lxzLDwYFEiM?si=ryYOUgVNYshNIzbM" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Второе видео -->
+      <div class="video-box">
+        <div class="video-frame">
+          <iframe 
+            src="https://www.youtube.com/embed/lxzLDwYFEiM?si=ryYOUgVNYshNIzbM" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© MINION POWER</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-twitch"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Замените это на Universe ID вашей игры
+    function animateVisitCounter() {
+      const counterElement = document.getElementById('visit-count');
+      if (!counterElement) return;
+
+      // 👇 ЗАМЕНИТЕ ЭТО ЧИСЛО НА РЕАЛЬНОЕ КОЛИЧЕСТВО ПОСЕЩЕНИЙ ВАШЕЙ ИГРЫ
+      const targetVisits = 313; // Пример: 1.5 миллиона
+      
+      const duration = 1500; // Длительность анимации (2.5 секунды)
+      const start = 0;
+      const increment = targetVisits / (duration / 16);
+
+      let currentNumber = start;
+      const timer = setInterval(() => {
+        currentNumber += increment;
+        if (currentNumber >= targetVisits) {
+          clearInterval(timer);
+          currentNumber = targetVisits;
+        }
+        counterElement.textContent = Math.floor(currentNumber).toLocaleString('ru-RU');
+      }, 16);
+    }
+
+  // Запускаем анимацию при загрузке страницы
+    document.addEventListener('DOMContentLoaded', animateVisitCounter);
+    // Scroll Progress Indicator
+    window.addEventListener('scroll', () => {
+      const scrollable = document.body.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      document.querySelector('.scroll-progress').style.width = `${(scrolled / scrollable) * 100}%`;
+    });
+
+    // Animate video boxes on scroll
+    const videoBoxes = document.querySelectorAll('.video-box');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0) rotateX(0)';
+          }, index * 200);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    videoBoxes.forEach(box => observer.observe(box));
+
+    // Cursor Trail Effect
+    const trailContainer = document.querySelector('.cursor-trail');
+    let trails = [];
+
+    document.addEventListener('mousemove', (e) => {
+      const dot = document.createElement('div');
+      dot.classList.add('trail-dot');
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top = `${e.clientY}px`;
+      trailContainer.appendChild(dot);
+      trails.push(dot);
+
+      // Remove old dots
+      if (trails.length > 15) {
+        trailContainer.removeChild(trails.shift());
+      }
+
+      // Auto-remove after animation
+      setTimeout(() => {
+        if (dot.parentElement) dot.remove();
+        const index = trails.indexOf(dot);
+        if (index > -1) trails.splice(index, 1);
+      }, 1000);
+    });
+
+    // Subtle header float on scroll
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.style.transform = `translateY(${window.scrollY * 0.05}px)`;
+    });
+  </script>
+</body>
+</html>
