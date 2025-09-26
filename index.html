@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minion Power - Portfolio</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <div class="lang-switcher">
+  <button id="lang-en">EN</button>
+  <button id="lang-ru">RU</button>
+</div>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;700&display=swap');
 
@@ -66,6 +70,80 @@
       z-index: -1;
       pointer-events: none;
     }
+
+.tos-container {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background: #050505;
+        }
+        .tos-header {
+            text-align: center;
+            border-bottom: 2px solid #d32f2f;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .tos-header h1 {
+            color: #c62828;
+            margin-bottom: 5px;
+        }
+        .tos-header small {
+            color: #d32f2f;
+            font-size: 0.7em;
+        }
+        .tos-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #202020;
+            border-left: 4px solid #d32f2f;
+        }
+        .tos-section h2 {
+            color: #b71c1c;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .tos-section ul, .tos-section ol {
+            padding-left: 25px;
+        }
+        .tos-section li {
+            margin-bottom: 10px;
+        }
+        .tos-section strong {
+            color: #d32f2f;
+        }
+        .tos-contact {
+            background: linear-gradient(135deg, #3f3f3f 0%, #ffcdd2 100%);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #ef9a9a;
+        }
+        .tos-contact h3 {
+            color: #c62828;
+            margin-bottom: 15px;
+        }
+        .tos-update {
+            font-size: 0.9em;
+            color: #d32f2f;
+            text-align: right;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #ffebee;
+            border-radius: 4px;
+        }
+        body {
+            background-color: #f5f5f5;
+        }
+        .highlight-red {
+            background-color: #ffebee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
 
     .shape {
       position: absolute;
@@ -160,6 +238,22 @@
         transform: translateY(0);
       }
     }
+
+    .lang-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 2000;
+  }
+  .lang-switcher button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
 
     /* Section Title */
     .section-title {
@@ -534,8 +628,10 @@
 
   <div class="container">
     <header>
-      <h1>Minion Power</h1>
-      <p class="description">Скриптер с более чем 4 годами опыта разработки на Luau. Специализируюсь на создании игровых систем, оптимизации кода и построении удобных инструментов для разработчиков. Умею разбираться в чужом коде и адаптироваться под проектные требования.</p>
+      <h1 data-lang="title">Minion Power</h1>
+<p class="description" data-lang="description">
+  Experienced scripter with more than 4 years in Luau. Specializing in game systems, code optimization, and developer tools.
+</p>
     </header>
     <!--
 
@@ -560,18 +656,18 @@
 
 
     <!-- Навыки Section -->
-    <div class="section-title">НАВЫКИ</div>
+    <div class="section-title" data-lang="skills">SKILLS</div>
     <div class="skills-container">
       <ul class="skills-list">
-        <li>Разработка боевых систем (оружие, файтинг, PvP механики)</li>
-        <li>Создание инвентарей, UI, квестовых систем, сохранений данных</li>
-        <li>Оптимизация кода и повышение производительности</li>
-        <li>Использование OOP-подхода и модульной структуры кода</li>
-      </ul>
+  <li data-lang="skill1">Combat system development (weapons, fighting, PvP mechanics)</li>
+  <li data-lang="skill2">Inventories, UI, quest systems, data saving</li>
+  <li data-lang="skill3">Code optimization and performance improvement</li>
+  <li data-lang="skill4">OOP and modular code structure</li>
+</ul>
     </div>
 
     <!-- Работы Section -->
-    <div class="section-title">РАБОТЫ</div>
+    <div class="section-title" data-lang="works">WORKS</div>
 
     <div class="video-container">
       <!-- Первое видео -->
@@ -627,8 +723,87 @@
       
     </div>
 
+    <div class="container">
+    <div class="section-title" data-lang="TOS">Terms Of Service</div>
+    <div>
+      <div class="tos-section">
+            <h2>1. Общие положения</h2>
+            <p>1.1. Настоящие Условия регулируют отношения между мной (Разработчиком) и Заказчиком (Вами) при выполнении заказов на создание скриптов для платформы Roblox.</p>
+            <p>1.2. Размещая заказ и осуществляя оплату, Заказчик подтверждает, что полностью ознакомился и безоговорочно соглашается с данными Условиями.</p>
+        </div>
+
+        <div class="tos-section">
+            <h2>2. Условия сотрудничества и оплаты</h2>
+            <p><strong>2.1. Финансовые условия:</strong></p>
+            <ul>
+                <li>Все услуги оплачиваются исключительно в рублях (на счет Сбербанка) или в криптовалюте (USDT TRC-20).</li>
+                <li><strong>Я не работаю за проценты от доходов игры, на абонентскую плату или в долг.</strong> Оплата производится авансом или по этапам, согласованным до начала работы.</li>
+            </ul>
+            
+            <p><strong>2.2. Процесс заказа:</strong></p>
+            <ol>
+                <li>Вы описываете задачу, желаемый функционал и требования к скрипту.</li>
+                <li>Я оцениваю сложность, сроки выполнения и называю стоимость.</li>
+                <li>После согласования всех деталей вы вносите предоплату.</li>
+                <li>Я приступаю к выполнению работы.</li>
+            </ol>
+            
+            <p><strong>2.3. Тестирование и доработки:</strong></p>
+            <ul>
+                <li>После завершения работы я предоставляю скрипт для тестирования.</li>
+                <li>Вы имеете право запросить исправление ошибок (багов), которые мешают заявленному функционалу, в течение согласованного периода (например, 7-14 дней) после сдачи проекта.</li>
+                <li>Любые доработки, изменяющие изначально согласованный функционал, обсуждаются отдельно и требуют дополнительной оплаты.</li>
+            </ul>
+        </div>
+
+        <div class="tos-section">
+            <h2>3. Оплата и возвраты</h2>
+            <p>3.1. Стоимость услуг определяется индивидуально для каждого проекта и согласовывается до начала работы.</p>
+            <p><strong>3.2. Политика возвратов:</strong></p>
+            <ul>
+                <li>Возврат средств осуществляется только в случае, если я не смог выполнить свои обязательства по согласованному техническому заданию по своей вине.</li>
+                <li>Если работа уже начата, но не завершена, сумма возврата рассчитывается индивидуально, исходя из объема выполненной работы.</li>
+                <li><strong>Возврат не производится</strong>, если:
+                    <ul>
+                        <li>Вы изменили решение и отказались от услуги после начала работы.</li>
+                        <li>Скрипт работает в соответствии с изначально согласованным техническим заданием.</li>
+                        <li>Скрипт перестал работать из-за обновлений клиента Roblox или игры.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tos-section">
+            <h2>4. Права собственности</h2>
+            <p>4.1. После полной оплаты Вы получаете право на использование скрипта в своих проектах на платформе Roblox.</p>
+            <p><strong>4.2. Я сохраняю за собой право:</strong></p>
+            <ul>
+                <li>Упоминать созданный скрипт в своем портфолио.</li>
+            </ul>
+            <p><strong>4.3. Вы не имеете права:</strong></p>
+            <ul>
+                <li>Полностью или частично копировать, продавать, передавать, распространять или выдавать исходный код скрипта третьим лицам без моего письменного согласия.</li>
+            </ul>
+        </div>
+
+        <div class="tos-section">
+            <h2>5. Гарантии и ответственность</h2>
+            <p>5.1. Я гарантирую, что скрипт будет функционировать в соответствии с согласованным техническим заданием на момент сдачи проекта.</p>
+            <p><strong>5.2. Я не гарантирую:</strong></p>
+            <ul>
+                <li>Бесперебойную работу скрипта после обновлений платформы Roblox.</li>
+                <li>Совместимость с другими скриптами или плагинами, не оговоренными заранее.</li>
+            </ul>
+            <p><strong>5.3. Обслуживание и поддержка:</strong></p>
+            <ul>
+                <li>Бесплатная поддержка включает только исправление критических багов в течение оговоренного периода после сдачи проекта.</li>
+                <li>Обновление скрипта для совместимости с новыми версиями Roblox или доработка функционала оплачиваются отдельно.</li>
+            </ul>
+        </div>
+    </div>
+
     <footer>
-      <p>© ОТЗЫВЫ В ДИСКОРД СЕРВЕРЕ</p>
+      <p data-lang="footer">© Feedback in Discord server</p>
       <div class="social-links">
         <a href="https://discord.gg/3HMK5Dfbjc/"><i class="fab fa-discord"></i></a>
       </div>
@@ -713,11 +888,53 @@
     window.addEventListener('scroll', () => {
       header.style.transform = `translateY(${window.scrollY * 0.05}px)`;
     });
+
+    const translations = {
+  en: {
+    title: "Minion Power",
+    description: "Experienced scripter with more than 4 years in Luau. Specializing in game systems, code optimization, and developer tools.",
+    skills: "SKILLS",
+    skill1: "Combat system development (weapons, fighting, PvP mechanics)",
+    skill2: "Inventories, UI, quest systems, data saving",
+    skill3: "Code optimization and performance improvement",
+    skill4: "OOP and modular code structure",
+    works: "WORKS",
+    footer: "© Feedback in Discord server",
+    TOS: "Terms Of Service"
+  },
+  ru: {
+    title: "Minion Power",
+    description: "Скриптер с более чем 4 годами опыта разработки на Luau. Специализируюсь на игровых системах, оптимизации кода и инструментах для разработчиков.",
+    skills: "НАВЫКИ",
+    skill1: "Разработка боевых систем (оружие, файтинг, PvP механики)",
+    skill2: "Создание инвентарей, UI, квестовых систем, сохранений данных",
+    skill3: "Оптимизация кода и повышение производительности",
+    skill4: "Использование OOP-подхода и модульной структуры кода",
+    works: "РАБОТЫ",
+    footer: "© ОТЗЫВЫ В ДИСКОРД СЕРВЕРЕ",
+    TOS: "Условие работы"
+  }
+};
+
+function setLanguage(lang) {
+  document.querySelectorAll("[data-lang]").forEach(el => {
+    const key = el.getAttribute("data-lang");
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+  localStorage.setItem("siteLang", lang);
+}
+
+const savedLang = localStorage.getItem("siteLang") || "en";
+setLanguage(savedLang);
+
+document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
+document.getElementById("lang-ru").addEventListener("click", () => setLanguage("ru"));
   </script>
 </body>
 
 </html>
-
 
 
 
