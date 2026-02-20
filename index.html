@@ -1,912 +1,229 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Minion Power Portfolio</title>
-  <meta name="description" content="Portfolio" />
+	<title>Minion Power</title>
+	<meta charset="UTF-8">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="css/style.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root{
-      --bg:#0b0c0f;
-      --panel:#0f1117;
-      --fg:#f3f4f6;
-      --muted:rgba(243,244,246,.68);
-      --line:rgba(243,244,246,.12);
-      --line2:rgba(243,244,246,.18);
-
-      /* “Острые края” */
-      --r:10px;        /* общий радиус */
-      --r-sm:8px;
-      --r-lg:12px;
-
-      --max:1120px;
-      --shadow: 0 18px 50px rgba(0,0,0,.55);
-      --shadow2: 0 10px 26px rgba(0,0,0,.35);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--fg);
-      background:
-        radial-gradient(900px 500px at 80% -10%, rgba(255,255,255,.06), transparent 60%),
-        radial-gradient(800px 420px at 10% 10%, rgba(255,255,255,.04), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.03), transparent 18%),
-        var(--bg);
-      font-family: var(--sans);
-      letter-spacing:.2px;
-      overflow-x:hidden;
-    }
-
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-
-    /* subtle background grid (делает “не-ИИ-шно”, более “дизайнерски”) */
-    .bg-grid{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      background:
-        linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      opacity:.22;
-      mask-image: radial-gradient(700px 400px at 50% 20%, #000 20%, transparent 70%);
-    }
-
-    /* Cursor highlight: меньше “геймерского неона”, больше “аккуратный свет” */
-    .cursor-glow{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      background: radial-gradient(200px 200px at var(--x,50%) var(--y,50%), rgba(255,255,255,.06), transparent 62%);
-      mix-blend-mode: screen;
-      opacity:.55;
-      transition: opacity .2s ease;
-    }
-
-    /* Top nav */
-    header{
-      position:fixed; left:0; right:0; top:0; z-index:50;
-      background: rgba(11,12,15,.72);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      height:70px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:650;
-      letter-spacing:.6px;
-    }
-    .mark{
-      width:12px; height:12px;
-      border:1px solid var(--line2);
-      background: rgba(255,255,255,.08);
-      border-radius: 2px; /* чуть острее */
-      box-shadow: 0 0 0 6px rgba(255,255,255,.04);
-    }
-    .brand a{display:flex; align-items:baseline; gap:10px}
-    .brand small{
-      font-family: var(--mono);
-      font-size:12px;
-      letter-spacing:.8px;
-      color: var(--muted);
-    }
-
-    nav ul{list-style:none; display:flex; gap:16px; padding:0; margin:0}
-    nav a{
-      position:relative;
-      font-size:14px;
-      color:var(--muted);
-      padding:10px 6px;
-      transition: color .2s ease;
-    }
-    nav a:hover{color:var(--fg)}
-    nav a::after{
-      content:"";
-      position:absolute; left:6px; right:6px; bottom:7px;
-      height:1px; background: var(--fg);
-      transform: scaleX(0);
-      transform-origin:left;
-      transition: transform .25s ease;
-      opacity:.8;
-    }
-    nav a:hover::after{transform:scaleX(1)}
-
-    .cta{display:flex; align-items:center; gap:12px}
-    .btn{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color: var(--fg);
-      padding:10px 14px;
-      border-radius: 999px;
-      font-size:14px;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-      box-shadow: var(--shadow2);
-      display:inline-flex; align-items:center; gap:10px;
-      cursor:pointer;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.22);
-    }
-    .btn:active{transform: translateY(0px)}
-    .btn.primary{
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,255,255,.22);
-    }
-
-    main{position:relative; z-index:1}
-
-    /* Hero */
-    .hero{padding-top:118px; padding-bottom:52px}
-    .grid-hero{
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
-      gap:26px;
-      align-items:stretch;
-    }
-    .kicker{
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing: 2.4px;
-      font-size:12px;
-      margin:0 0 12px;
-      font-family: var(--mono);
-    }
-    h1{
-      margin:0;
-      font-size: clamp(40px, 5.6vw, 70px);
-      line-height: 1.02;
-      letter-spacing:-.9px;
-    }
-    .sub{
-      margin:16px 0 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height:1.65;
-      max-width: 66ch;
-    }
-
-    .card{
-      border:1px solid var(--line);
-      border-radius: var(--r);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card{
-      padding:18px 18px 16px;
-      overflow:hidden;
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap:14px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)),
-        radial-gradient(420px 220px at 20% 0%, rgba(255,255,255,.05), transparent 60%);
-    }
-    .hero-card .scan{
-      position:absolute; inset:0;
-      background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.07) 50%, transparent 65%);
-      transform: translateX(-120%);
-      animation: scan 4.4s ease-in-out infinite;
-      opacity:.65;
-      pointer-events:none;
-    }
-    @keyframes scan{
-      0%,55%{transform:translateX(-120%); opacity:0}
-      65%{opacity:.7}
-      100%{transform:translateX(120%); opacity:0}
-    }
-
-    .facts{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    .fact{
-      border:1px solid var(--line);
-      border-radius: var(--r-sm);
-      padding:12px;
-      background: rgba(0,0,0,.22);
-    }
-    .fact b{display:block; font-size:18px; letter-spacing:-.3px}
-    .fact span{color:var(--muted); font-size:13px}
-
-    .pill-row{
-      margin-top:14px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .pill{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      padding:8px 12px;
-      border-radius: 999px;
-      font-size:13px;
-      color: var(--muted);
-      transition: border-color .15s ease, background .15s ease, transform .15s ease, color .15s ease;
-    }
-    .pill:hover{
-      border-color: rgba(255,255,255,.26);
-      background: rgba(255,255,255,.05);
-      transform: translateY(-1px);
-      color: var(--fg);
-    }
-
-    /* Sections */
-    section{
-      padding: 44px 0;
-      border-top: 1px solid var(--line);
-    }
-    .section-head{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:18px;
-      margin-bottom:18px;
-    }
-    .section-title{
-      font-size: 22px;
-      margin:0;
-      letter-spacing:-.25px;
-    }
-    .section-note{
-      color:var(--muted);
-      margin:0;
-      max-width: 74ch;
-      font-size:14px;
-      line-height:1.6;
-    }
-
-    /* Videos */
-    .videos{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:16px;
-    }
-    .video{
-      grid-column: span 6;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.02);
-      overflow:hidden;
-      box-shadow: var(--shadow2);
-      transform: translateY(6px);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .video:hover{
-      transform: translateY(0px);
-      border-color: rgba(255,255,255,.26);
-      background: rgba(255,255,255,.03);
-    }
-    .video .frame{
-      position:relative;
-      padding-top: 56.25%;
-      background: #000;
-    }
-    .video iframe{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      border:0;
-    }
-    .video .meta{
-      padding: 14px 14px 16px;
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-    }
-    .video .meta h3{margin:0; font-size:15px; letter-spacing:-.2px}
-    .video .meta p{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.5}
-
-    /* Split blocks */
-    .split{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:22px;
-      align-items:start;
-    }
-    .left-border{
-      border-left:1px solid var(--line);
-      padding-left:18px;
-    }
-    .list{
-      margin:10px 0 0;
-      padding-left:18px;
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    /* Footer */
-    footer{
-      padding: 36px 0 56px;
-      border-top:1px solid var(--line);
-      color: var(--muted);
-    }
-    .footer-row{
-      display:flex; justify-content:space-between; align-items:center; gap:16px;
-      flex-wrap:wrap;
-    }
-    .tiny{
-      font-family: var(--mono);
-      font-size:12px;
-      letter-spacing:.6px;
-      color: rgba(243,244,246,.55);
-    }
-
-    /* Reveal */
-    .reveal{
-      opacity:0;
-      transform: translateY(12px);
-      filter: blur(7px);
-      transition: opacity .7s ease, transform .7s ease, filter .7s ease;
-      will-change: transform, opacity, filter;
-    }
-    .reveal.is-in{
-      opacity:1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
-    @media (max-width: 920px){
-      .grid-hero{grid-template-columns:1fr}
-      .video{grid-column: span 12}
-      .split{grid-template-columns:1fr}
-      .left-border{
-        border-left:none;
-        padding-left:0;
-        border-top:1px solid var(--line);
-        padding-top:16px
-      }
-      nav ul{display:none}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .reveal{opacity:1; transform:none; filter:none; transition:none}
-      .cursor-glow{display:none}
-      .hero-card .scan{display:none}
-      .video{transform:none}
-    }
-  </style>
 </head>
 
 <body>
-  <div class="bg-grid" aria-hidden="true"></div>
-  <div class="cursor-glow" aria-hidden="true"></div>
+	<div class="wrapper">
+		<header class="header">
+			<div class="header__container">
+				<div class="header__box">
+					<div class="header__logo">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<rect width="24" height="24" rx="6" fill="#18191C" />
+							<rect x="6.5" y="6.5" width="11" height="11" rx="1.5" stroke="#464849" />
+						</svg>
+						Minion Power
+					</div>
+					<div class="header__caption">portfolio</div>
+				</div>
 
-  <header>
-    <div class="wrap nav">
-      <div class="brand">
-        <span class="mark" aria-hidden="true"></span>
-        <a href="#top">
-          <span id="brandTitle">MINION POWER</span>
-          <small id="brandTag">PORTFOLIO</small>
-        </a>
-      </div>
+				<nav class="header__menu menu">
+					<ul class="menu__list">
+						<li class="menu__item"><a data-goto=".work-1" data-goto-header href="#" class="menu__link">Projects</a></li>
+						<li class="menu__item"><a data-goto=".about" data-goto-header href="#" class="menu__link">About me</a></li>
+						<li class="menu__item"><a data-goto=".tutoring" data-goto-header href="#" class="menu__link">Tutoring</a></li>
+						<li class="menu__item"><a data-goto=".footer" data-goto-header href="#" class="menu__link">Contacts</a></li>
+					</ul>
+				</nav>
+				<a href="#" class="header__link">
+					<span>Discord</span>
+					<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M0.146447 12.1464C-0.0488155 12.3417 -0.0488155 12.6583 0.146447 12.8536C0.341709 13.0488 0.658291 13.0488 0.853553 12.8536L0.5 12.5L0.146447 12.1464ZM13 0.499999C13 0.223858 12.7761 -5.6832e-08 12.5 -8.57622e-07L8 -4.57227e-07C7.72386 -6.25814e-07 7.5 0.223857 7.5 0.499999C7.5 0.776142 7.72386 0.999999 8 0.999999L12 1L12 5C12 5.27614 12.2239 5.5 12.5 5.5C12.7761 5.5 13 5.27614 13 5L13 0.499999ZM0.5 12.5L0.853553 12.8536L12.8536 0.853553L12.5 0.499999L12.1464 0.146446L0.146447 12.1464L0.5 12.5Z" fill="white" />
+					</svg>
+				</a>
+			</div>
+		</header>
+		<main>
+			<section class="hero">
+				<div class="hero__container">
+					<h1 class="hero__title">Minion Power</h1>
+					<div class="hero__sub-title">Roblox developer & Tutor</div>
+					<div class="hero__block">
+						<div class="hero__caption">Focus</div>
+						<div class="hero__text">
+							<p>Cash-grab (monetization, retention) • Shooting • Loops & Economy •</p>
+							<p>Weapons & Networking • UI Motion • Tutoring</p>
+						</div>
+						<div class="hero__body">
+							<div class="hero__item">
+								<div class="hero__value">15+</div>
+								<div class="hero__label">Projects</div>
+							</div>
+							<div class="hero__item">
+								<div class="hero__value">Fast</div>
+								<div class="hero__label">Response</div>
+							</div>
+							<div class="hero__item">
+								<div class="hero__value">Top-Tier</div>
+								<div class="hero__label">Optimization</div>
+							</div>
+							<div class="hero__item">
+								<div class="hero__value">Advanced</div>
+								<div class="hero__label">UI Animations</div>
+							</div>
+							<div class="hero__item">
+								<div class="hero__value">Advanced</div>
+								<div class="hero__label">Data savings</div>
+							</div>
+							<div class="hero__item">
+								<div class="hero__value">Tutoring Price</div>
+								<div class="hero__label">$25 per hour</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="works work-1">
+				<div class="works__container">
+					<h2 class="works__title">My Projects</h2>
+				</div>
+				<div class="works__slider swiper">
+					<div class="works__wrapper swiper-wrapper">
+						<div class="works__slide swiper-slide">
+							<div class="works__media">
+								<iframe loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/Zg1d1PKsJBY?si=_yJ3EXl2vUlLrV29" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							</div>
+							<div class="works__content">
+								<div class="works__caption">Example text</div>
+								<div class="works__text">Example description</div>
+							</div>
+						</div>
+						<div class="works__slide swiper-slide">
+							<div class="works__media">
+								<iframe loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/FGgvpOU3klc?si=kDBc7oPVTF2jyjDW" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							</div>
+							<div class="works__content">
+								<div class="works__caption">Example text</div>
+								<div class="works__text">Example description</div>
+							</div>
+						</div>
+						<div class="works__slide swiper-slide">
+							<div class="works__media">
+								<iframe loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/t5giqnpikh8?si=WLL1gRUFnTumyO53" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							</div>
+							<div class="works__content">
+								<div class="works__caption">Example text</div>
+								<div class="works__text">Example description</div>
+							</div>
+						</div>
+						<div class="works__slide swiper-slide">
+							<div class="works__media">
+								<iframe loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/p4Vmksze-XQ?si=z_PYTmcqTFlgcw_Z" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							</div>
+							<div class="works__content">
+								<div class="works__caption">Example text</div>
+								<div class="works__text">Example description</div>
+							</div>
+						</div> 
+						<div class="works__slide swiper-slide">
+							<div class="works__media">
+								<iframe loading="lazy" width="560" height="315" src="https://www.youtube.com/embed/pl7_6K1te6o?si=DCo71n0P5-SpqK2e" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							</div>
+							<div class="works__content">
+								<div class="works__caption">Example text</div>
+								<div class="works__text">Example description</div>
+							</div>
+						</div> 
+					</div>
+					<button type="button" class="swiper-button-prev">
+						<svg width="35" height="180" viewBox="0 0 35 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M35 180L3.93403e-06 90L35 -1.5299e-06L35 180Z" fill="#575759" />
+						</svg>
+					</button>
+					<button type="button" class="swiper-button-next">
+						<svg width="35" height="180" viewBox="0 0 35 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M-2.38655e-07 180L35 90L7.62939e-06 -1.5299e-06L-2.38655e-07 180Z" fill="#575759" />
+						</svg>
+					</button>
+				</div>
+			</section>
+			<section class="about">
+				<div class="about__container">
+					<h2 class="about__title">About Me</h2>
+					<div class="about__block">
+						<div class="about__text">I mostly enjoy building standalone systems, but I can develop full
+							games as well.</div>
+						<div class="about__caption">What I do:</div>
+						<ul class="about__list">
+							<li class="about__item">Economy systems: shop, rewards, progression</li>
+							<li class="about__item">Shooting systems: weapons, hit registration, replication</li>
+							<li class="about__item">UI + animations: tweens, transitions, polish</li>
+							<li class="about__item">Basic anti-exploit protection</li>
+							<li class="about__item">Optimization (CPU / FPS / Networking)</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section class="tutoring">
+				<div class="tutoring__container">
+					<h2 class="tutoring__title">Tutoring</h2>
+					<div class="tutoring__block">
+						<div class="tutoring__text">
+							<p>
+								I will teach you Roblox Lua and a production-ready approach so you can take freelance
+								orders and build games that generate revenue.
+								One-on-one sessions. Practical training with real-world tasks: cash-grab loops, shooting
+								systems, and UI animations.
+							</p>
+							<p>
+								After completing the training, you will be able to build a portfolio, take freelance
+								jobs, and start earning on the international market.
+								We will also cover client communication, task estimation, and case presentation.
+							</p>
+						</div>
+						<div class="tutoring__row">
+							<div class="tutoring__column">
+								<div class="tutoring__caption">What we will cover:</div>
+								<ul class="tutoring__list">
+									<li class="tutoring__item">Lua fundamentals, modules, project structure</li>
+									<li class="tutoring__item">Cash-grab loops: economy, rewards, shop systems</li>
+									<li class="tutoring__item">Shooting systems: weapons, recoil, hit registration,
+										replication</li>
+									<li class="tutoring__item">UI animations: tweens, transitions, game feel</li>
+									<li class="tutoring__item">Datastore + security basics</li>
+									<li class="tutoring__item">Mini portfolio-ready case studies</li>
+								</ul>
+							</div>
+							<div class="tutoring__column">
+								<div class="tutoring__caption">Price</div>
+								<div class="tutoring__value"><span>$25</span> / hour</div>
+								<div class="tutoring__caption">Format</div>
+								<div class="tutoring__heading">
+									<p>Online • One-on-one</p>
+									<p>Practice + homework</p>
+								</div>
+								<div class="tutoring__caption">Result</div>
+								<div class="tutoring__desc">1–3 portfolio-ready mini projects + a clear understanding of
+									how to find international clients.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer class="footer">
+			<div class="footer__container">
+				<div class="footer__title">Contacts</div>
+				<a href="https://www.youtube.com/" class="footer__link">
+					<span>Discord</span>
+					<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M0.146447 12.1464C-0.0488155 12.3417 -0.0488155 12.6583 0.146447 12.8536C0.341709 13.0488 0.658291 13.0488 0.853553 12.8536L0.5 12.5L0.146447 12.1464ZM13 0.499999C13 0.223858 12.7761 -5.6832e-08 12.5 -8.57622e-07L8 -4.57227e-07C7.72386 -6.25814e-07 7.5 0.223857 7.5 0.499999C7.5 0.776142 7.72386 0.999999 8 0.999999L12 1L12 5C12 5.27614 12.2239 5.5 12.5 5.5C12.7761 5.5 13 5.27614 13 5L13 0.499999ZM0.5 12.5L0.853553 12.8536L12.8536 0.853553L12.5 0.499999L12.1464 0.146446L0.146447 12.1464L0.5 12.5Z" fill="white" />
+					</svg>
+				</a>
+				<div class="footer__text">I usually respond within a day.</div>
+			</div>
+		</footer>
+	</div>
 
-      <nav aria-label="Основная навигация">
-        <ul id="navList">
-          <li><a href="#work">Video</a></li>
-          <li><a href="#about">About me</a></li>
-          <li><a href="#tutoring">Tutoring</a></li>
-          <li><a href="#contact">Contacts</a></li>
-        </ul>
-      </nav>
-
-      <div class="cta">
-        <a class="btn primary" id="navDiscordBtn" href="#contact">Discord <span aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-  </header>
-
-  <main id="top">
-    <div class="wrap hero">
-      <div class="grid-hero">
-        <div class="reveal">
-          <p class="kicker" id="heroKicker"></p>
-
-          <h1 id="heroTitle">
-            Hello, Im <span style="opacity:.92" id="heroName">MinionPower</span>.<br/>
-            <span id="heroRole">Roblox scripter and tutor.</span>
-          </h1>
-
-          <p class="sub" id="heroSub">
-            focusing on: <b>big projects</b> single systems, <b>cash grab games</b>,
-            <b>UI Animations</b>
-            also tutoring (25$ per hour).
-          </p>
-
-          <div class="pill-row" id="heroPills"></div>
-
-          <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap">
-            <a class="btn" href="#work" id="heroWorkBtn">my works</a>
-            <a class="btn primary" href="#tutoring" id="heroTutorBtn">tutoring</a>
-          </div>
-        </div>
-
-        <aside class="card hero-card reveal">
-          <div class="scan" aria-hidden="true"></div>
-
-          <div style="display:flex; justify-content:space-between; gap:14px; align-items:flex-start">
-            <div>
-              <div style="color:var(--muted); font-size:13px" id="focusLabel">Фокус</div>
-              <div style="font-size:18px; margin-top:6px; letter-spacing:-.2px" id="focusValue">
-                Cash-grab • Shooting • UI
-              </div>
-            </div>
-            <div style="color:var(--muted); font-size:13px; text-align:right" id="focusRight"></div>
-          </div>
-
-          <div class="facts" id="factsGrid"></div>
-
-          <div class="tiny" id="heroCardNote" style="margin-top:2px">
-            Быстрый продакшн, аккуратный код, меньше лагов, больше денег 💸
-          </div>
-        </aside>
-      </div>
-    </div>
-
-    <section id="work">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="section-title reveal" id="workTitle">Видео работ</h2>
-          <p class="section-note reveal" id="workNote">
-            Вставь свои YouTube/Vimeo embed. Идеально: 4–6 видео, где видно петли монетизации,
-            стрельбу и UI-анимации.
-          </p>
-        </div>
-
-        <div class="videos" id="videosGrid"></div>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="section-title reveal" id="aboutTitle">Обо мне</h2>
-          <p class="section-note reveal" id="aboutNote">
-            Коротко и по делу: чем полезен проекту, какие задачи закрываешь быстрее всего.
-          </p>
-        </div>
-
-        <div class="card reveal" style="padding:18px">
-          <div class="split">
-            <div>
-              <div style="color:var(--muted); font-size:13px" id="aboutLeftLabel">Специализация</div>
-              <div style="font-size:18px; margin-top:8px; line-height:1.55" id="aboutText">
-                Делаю проекты, которые зарабатывают: быстрые cash-grab петли, монетизация,
-                баланс прогрессии, и при этом хороший feel через стрельбу и UI-анимации.
-                Код структурный: чтобы не “сыпалось” при росте игры.
-              </div>
-
-              <div class="pill-row" style="margin-top:16px" id="aboutPills"></div>
-            </div>
-
-            <div class="left-border">
-              <div style="color:var(--muted); font-size:13px" id="aboutRightLabel">Что делаю</div>
-              <ul class="list" id="aboutList"></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="tutoring">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="section-title reveal" id="tutorTitle">Туторство</h2>
-          <p class="section-note reveal" id="tutorNote">
-            Индивидуально. Практика на реальных задачах: cash-grab петли, стрельба и UI-анимации.
-          </p>
-        </div>
-
-        <div class="card reveal" style="padding:22px">
-          <div class="split">
-            <div>
-              <div style="font-size:20px; line-height:1.55" id="tutorLead">
-                Обучу Roblox Lua и продакшн-подходу: чтобы ты мог брать заказы и делать игры, которые приносят деньги.
-              </div>
-
-              <div style="margin-top:14px; color:var(--muted); line-height:1.75" id="tutorBody">
-                После обучения ты сможешь собрать портфолио, брать заказы и начать зарабатывать на западном фрилансе.
-                Также разберем общение с клиентами, оценку задач и оформление кейсов.
-              </div>
-
-              <div style="margin-top:18px; color:var(--muted); line-height:1.75">
-                <span id="tutorWhat">Что разберем:</span>
-                <ul class="list" id="tutorList"></ul>
-              </div>
-
-              <div style="margin-top:22px; display:flex; gap:14px; flex-wrap:wrap">
-                <a class="btn primary" href="#contact" id="tutorDiscordBtn">В Discord</a>
-                <a class="btn" href="#work" id="tutorWorkBtn">Смотреть видео</a>
-              </div>
-            </div>
-
-            <div class="left-border">
-              <div style="color:var(--muted); font-size:13px" id="priceLabel">Стоимость</div>
-              <div style="font-size:34px; margin-top:8px; letter-spacing:-.5px" id="priceValue">
-                1500 ₽ <span style="font-size:14px; color:var(--muted)">/ час</span>
-              </div>
-
-              <div style="margin-top:18px; color:var(--muted); font-size:13px" id="formatLabel">Формат</div>
-              <div style="margin-top:8px; font-size:16px" id="formatValue">
-                Онлайн • Индивидуально<br/>
-                Практика + домашка
-              </div>
-
-              <div style="margin-top:18px; color:var(--muted); font-size:13px" id="resultLabel">Результат</div>
-              <div style="margin-top:8px; color:var(--muted); line-height:1.75" id="resultValue">
-                1–3 мини-кейса в портфолио + понимание как искать зарубежных клиентов.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="wrap">
-        <div class="section-head">
-          <h2 class="section-title reveal" id="contactTitle">Контакты</h2>
-          <p class="section-note reveal" id="contactNote">Оставил только Discord. Поставь свою ссылку на канал/сервер.</p>
-        </div>
-
-        <div class="footer-row">
-          <div class="reveal">
-            <div style="color:var(--muted); font-size:13px">Discord</div>
-            <div style="margin-top:10px">
-              <a class="btn primary" id="discordBtn" href="https://discord.gg/YOUR_INVITE" target="_blank" rel="noreferrer">
-                Перейти в мой Discord <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <div class="tiny" style="margin-top:10px" id="discordHint">Обычно отвечаю в течение дня.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="wrap footer-row">
-        <div>© <span id="year"></span> <span id="footerName">[ТВОЕ ИМЯ]</span></div>
-        <div class="tiny" id="footerTag">Black & White UI. Цвет оставили играм 🎮</div>
-      </div>
-    </footer>
-  </main>
-
-  <script>
-    /**
-     * =========================
-     * CONFIG: меняй всё тут 👇
-     * =========================
-     */
-    const CONFIG = {
-  brand: { title: "Minion Power", tag: "portfolio" },
-
-  hero: {
-    kicker: "",
-    name: "Minion Power",
-    role: "Roblox Developer & Tutor",
-    subHTML: `
-      Focus: <b>cash-grab games</b> (monetization, retention), <b>FPS systems</b>,
-      <b>UI animations</b>.
-      Tutoring price: $25 per hour.
-    `,
-    pills: ["Cash-grab loops","Monetization","Shooting systems","UI animations","Datastore","Optimization"],
-    buttons: { work: "", tutor: "" }
-  },
-
-  heroCard: {
-    focusLabel: "Focus",
-    focusValue: "Cash-grab • Shooting • UI",
-    focusRight: ["Loops & Economy","Weapons & Networking","UI Motion"],
-    facts: [
-      { big: "15+", small: "Projects" },
-      { big: "Fast", small: "Response" },
-      { big: "Top-tier", small: "Optimization" },
-      { big: "Advanced", small: "UI Animations" },
-    ],
-    note: ""
-  },
-
-  work: {
-    title: "My Projects",
-    note: "",
-    videos: [
-      {
-        type: "youtube",
-        id: "pl7_6K1te6o?si=hFdUK-UXa85G3Gjf",
-        title: "3D Engine",
-        desc: "One of the hardest systems I've built, based entirely on linear algebra.",
-        year: "2026"
-      },
-      {
-        type: "youtube",
-        id: "FGgvpOU3klc?si=GYAHDMaNT8HR8YMf",
-        title: "Grid Placement System",
-        desc: "Classic grid-based placement system.",
-        year: "2025"
-      },
-      {
-        type: "youtube",
-        id: "t5giqnpikh8?si=qzLv53PXqvdk-i36",
-        title: "UI Grid Placement",
-        desc: "Grid placement system adapted for 2D UI.",
-        year: "2025"
-      },
-      {
-        type: "youtube",
-        id: "Zg1d1PKsJBY?si=p6dtTocQFtxPhDUm",
-        title: "Sword Fighting System",
-        desc: "Attempt to replicate the Mordhau-style sword combat system.",
-        year: "2025"
-      },
-      {
-        type: "youtube",
-        id: "p4Vmksze-XQ?si=yoMzRV6bGyX4yvNA",
-        title: "FPS System",
-        desc: "One of my best FPS systems with smooth animations.",
-        year: "2025"
-      },
-    ]
-  },
-
-  about: {
-    title: "About Me",
-    note: "",
-    leftLabel: "",
-    text:
-      "I mostly enjoy building standalone systems, but I can develop full games as well.",
-    pills: ["Gamepasses","DevProducts","Retention","Weapons","UI Tweening"],
-    rightLabel: "What I Do",
-    list: [
-      "Economy systems: shop, rewards, progression",
-      "Shooting systems: weapons, hit registration, replication",
-      "UI + animations: tweens, transitions, polish",
-      "Basic anti-exploit protection",
-      "Optimization (CPU / FPS / Networking)"
-    ]
-  },
-
-  tutoring: {
-    title: "Tutoring",
-    note: "One-on-one sessions. Practical training with real-world tasks: cash-grab loops, shooting systems, and UI animations.",
-    lead: "I will teach you Roblox Lua and a production-ready approach so you can take freelance orders and build games that generate revenue.",
-    body:
-      "After completing the training, you will be able to build a portfolio, take freelance jobs, and start earning on the international market. We will also cover client communication, task estimation, and case presentation.",
-    what: "What we will cover:",
-    list: [
-      "Lua fundamentals, modules, project structure",
-      "Cash-grab loops: economy, rewards, shop systems",
-      "Shooting systems: weapons, recoil, hit registration, replication",
-      "UI animations: tweens, transitions, game feel",
-      "Datastore + security basics",
-      "Mini portfolio-ready case studies"
-    ],
-    priceLabel: "Price",
-    priceHTML: `$25 <span style="font-size:14px; color:var(--muted)">/ hour</span>`,
-    formatLabel: "Format",
-    formatHTML: "Online • One-on-one<br/>Practice + homework",
-    resultLabel: "Result",
-    resultText: "1–3 portfolio-ready mini projects + a clear understanding of how to find international clients.",
-    buttons: { discord: "Join on Discord", work: "Watch Projects" }
-  },
-
-  contact: {
-    title: "Contact",
-    note: "Discord only. Add your own invite link.",
-    discordUrl: "https://discord.gg/YOUR_INVITE",
-    discordBtn: "Join My Discord",
-    hint: "I usually respond within a day."
-  },
-
-  footer: {
-    name: "Minion Power",
-    tag: ""
-  }
-};
-
-
-    /**
-     * =========================
-     * RENDER HELPERS
-     * =========================
-     */
-    const $ = (sel) => document.querySelector(sel);
-
-    function setText(id, value){
-      const el = document.getElementById(id);
-      if(el) el.textContent = value;
-    }
-    function setHTML(id, value){
-      const el = document.getElementById(id);
-      if(el) el.innerHTML = value;
-    }
-    function setHref(id, value){
-      const el = document.getElementById(id);
-      if(el) el.href = value;
-    }
-    function renderPills(containerId, items){
-      const root = document.getElementById(containerId);
-      if(!root) return;
-      root.innerHTML = "";
-      items.forEach(t => {
-        const s = document.createElement("span");
-        s.className = "pill";
-        s.textContent = t;
-        root.appendChild(s);
-      });
-    }
-    function renderFacts(containerId, facts){
-      const root = document.getElementById(containerId);
-      if(!root) return;
-      root.innerHTML = "";
-      facts.forEach(f => {
-        const d = document.createElement("div");
-        d.className = "fact";
-        d.innerHTML = `<b>${f.big}</b><span>${f.small}</span>`;
-        root.appendChild(d);
-      });
-    }
-    function renderList(containerId, items){
-      const root = document.getElementById(containerId);
-      if(!root) return;
-      root.innerHTML = "";
-      items.forEach(t => {
-        const li = document.createElement("li");
-        li.textContent = t;
-        root.appendChild(li);
-      });
-    }
-    function videoSrc(v){
-      if(v.type === "youtube") return `https://www.youtube.com/embed/${v.id}`;
-      if(v.type === "vimeo") return `https://player.vimeo.com/video/${v.id}`;
-      return "";
-    }
-    function renderVideos(containerId, videos){
-      const root = document.getElementById(containerId);
-      if(!root) return;
-      root.innerHTML = "";
-      videos.forEach((v, i) => {
-        const art = document.createElement("article");
-        art.className = "video reveal";
-        art.innerHTML = `
-          <div class="frame">
-            <iframe
-              src="${videoSrc(v)}"
-              title="${v.title}"
-              allow="${v.type === "youtube" ? "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" : "autoplay; fullscreen; picture-in-picture"}"
-              allowfullscreen></iframe>
-          </div>
-          <div class="meta">
-            <div>
-              <h3>${v.title}</h3>
-              <p>${v.desc}</p>
-            </div>
-            <div style="color:var(--muted); font-size:13px">${v.year || ""}</div>
-          </div>
-        `;
-        root.appendChild(art);
-      });
-    }
-
-    /**
-     * =========================
-     * APPLY CONFIG
-     * =========================
-     */
-    // Year
-    $("#year").textContent = new Date().getFullYear();
-
-    // Brand
-    setText("brandTitle", CONFIG.brand.title);
-    setText("brandTag", CONFIG.brand.tag);
-
-    // Hero
-    setText("heroKicker", CONFIG.hero.kicker);
-    setText("heroName", CONFIG.hero.name);
-    setText("heroRole", CONFIG.hero.role);
-    setHTML("heroSub", CONFIG.hero.subHTML);
-    setText("heroWorkBtn", CONFIG.hero.buttons.work);
-    setText("heroTutorBtn", CONFIG.hero.buttons.tutor);
-    renderPills("heroPills", CONFIG.hero.pills);
-
-    // Hero card
-    setText("focusLabel", CONFIG.heroCard.focusLabel);
-    setText("focusValue", CONFIG.heroCard.focusValue);
-    const fr = document.getElementById("focusRight");
-    fr.innerHTML = CONFIG.heroCard.focusRight.map(x => `<div>${x}</div>`).join("");
-    renderFacts("factsGrid", CONFIG.heroCard.facts);
-    setText("heroCardNote", CONFIG.heroCard.note);
-
-    // Work
-    setText("workTitle", CONFIG.work.title);
-    setText("workNote", CONFIG.work.note);
-    renderVideos("videosGrid", CONFIG.work.videos);
-
-    // About
-    setText("aboutTitle", CONFIG.about.title);
-    setText("aboutNote", CONFIG.about.note);
-    setText("aboutLeftLabel", CONFIG.about.leftLabel);
-    setText("aboutText", CONFIG.about.text);
-    renderPills("aboutPills", CONFIG.about.pills);
-    setText("aboutRightLabel", CONFIG.about.rightLabel);
-    renderList("aboutList", CONFIG.about.list);
-
-    // Tutoring
-    setText("tutorTitle", CONFIG.tutoring.title);
-    setText("tutorNote", CONFIG.tutoring.note);
-    setText("tutorLead", CONFIG.tutoring.lead);
-    setText("tutorBody", CONFIG.tutoring.body);
-    setText("tutorWhat", CONFIG.tutoring.what);
-    renderList("tutorList", CONFIG.tutoring.list);
-
-    setText("priceLabel", CONFIG.tutoring.priceLabel);
-    setHTML("priceValue", CONFIG.tutoring.priceHTML);
-    setText("formatLabel", CONFIG.tutoring.formatLabel);
-    setHTML("formatValue", CONFIG.tutoring.formatHTML);
-    setText("resultLabel", CONFIG.tutoring.resultLabel);
-    setText("resultValue", CONFIG.tutoring.resultText);
-
-    setText("tutorDiscordBtn", CONFIG.tutoring.buttons.discord);
-    setText("tutorWorkBtn", CONFIG.tutoring.buttons.work);
-
-    // Contact
-    setText("contactTitle", CONFIG.contact.title);
-    setText("contactNote", CONFIG.contact.note);
-    setHref("discordBtn", CONFIG.contact.discordUrl);
-    setHTML("discordBtn", `${CONFIG.contact.discordBtn} <span aria-hidden="true">↗</span>`);
-    setText("discordHint", CONFIG.contact.hint);
-
-    // Nav + buttons that point to contact (оставляем якорь), но ссылку Discord в секции делаем реальную
-    setHref("navDiscordBtn", "#contact");
-
-    // Footer
-    setText("footerName", CONFIG.footer.name);
-    setText("footerTag", CONFIG.footer.tag);
-
-    /**
-     * =========================
-     * INTERACTION / ANIMATIONS
-     * =========================
-     */
-    // Cursor glow follow
-    const glow = document.querySelector(".cursor-glow");
-    window.addEventListener("mousemove", (e) => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      glow.style.setProperty("--x", x + "%");
-      glow.style.setProperty("--y", y + "%");
-    });
-
-    // Reveal on scroll
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("is-in");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-
-    // Smooth anchor scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener("click", (e) => {
-        const id = a.getAttribute("href");
-        if(!id || id === "#") return;
-        const target = document.querySelector(id);
-        if(!target) return;
-        e.preventDefault();
-        target.scrollIntoView({ behavior:"smooth", block:"start" });
-      });
-    });
-  </script>
+	<script src="js/app.min.js"></script>
 </body>
+
 </html>
