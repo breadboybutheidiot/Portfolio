@@ -316,6 +316,17 @@ body {
   text-align: center;
 }
 
+.works__slider {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.works__slider.is-ready {
+  opacity: 1;
+  visibility: visible;
+}
+
 .hero__sub-title {
   font-weight: 300;
   font-size: 3rem;
