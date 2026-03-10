@@ -3290,7 +3290,4 @@
             }, 100);
         });
     }
-    window.addEventListener("load", function(e) {
-        initSliders();
-    });
 })();
