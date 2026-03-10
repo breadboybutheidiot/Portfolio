@@ -3236,19 +3236,47 @@
     }
     pageNavigation();
     function initSliders() {
-        if (document.querySelector(".works__slider")) new Swiper(".works__slider", {
-            modules: [ Navigation ],
-            observer: true,
-            observeParents: true,
-            slidesPerView: 3,
-            spaceBetween: 80,
-            autoHeight: false,
-            centeredSlides: true,
-            speed: 500,
-            navigation: {
-                prevEl: ".swiper-button-prev",
-                nextEl: ".swiper-button-next"
-            }
+        const sliderElements = document.querySelectorAll(".works__slider");
+        if (!sliderElements.length) return;
+
+        sliderElements.forEach((sliderEl) => {
+            const swiper = new Swiper(sliderEl, {
+                observer: true,
+                observeParents: true,
+                slidesPerView: 3,
+                spaceBetween: 80,
+                autoHeight: false,
+                centeredSlides: true,
+                speed: 500,
+                rewind: true
+            });
+
+            let intervalId = null;
+
+            const startAuto = () => {
+                stopAuto();
+                intervalId = setInterval(() => {
+                    if (!swiper.destroyed) swiper.slideNext();
+                }, 1000);
+            };
+
+            const stopAuto = () => {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+            };
+
+            startAuto();
+
+            sliderEl.addEventListener("mouseenter", stopAuto);
+            sliderEl.addEventListener("mouseleave", startAuto);
+
+            sliderEl.addEventListener("touchstart", stopAuto, { passive: true });
+            sliderEl.addEventListener("touchend", startAuto);
+
+            sliderEl.addEventListener("focusin", stopAuto);
+            sliderEl.addEventListener("focusout", startAuto);
         });
     }
     window.addEventListener("load", function(e) {
